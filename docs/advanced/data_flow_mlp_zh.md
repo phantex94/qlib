@@ -198,3 +198,81 @@ Qlib 的数据底座是统一的二维表结构（`datetime`, `instrument` 索�
   - 时序重“历史轨迹建模”；
 - `step_len=1` 是时序路线的极短窗口特例，而非完全退化成截面实现。
 
+---
+
+## 9. 形状对照图：同一份数据在 `DatasetH(2D)` 与 `TSDatasetH(3D)` 下的具体例子
+
+下面用一个具体数字例子说明两条路线的数据形状关系。
+
+设定：
+
+- 交易日数 `D = 3`（`d1, d2, d3`）
+- 股票数 `T = 4`（`A, B, C, D`）
+- 特征数 `F = 5`
+- 时序窗口 `step_len = 2`
+
+也就是同一份底层二维数据可理解为逻辑上的 `dates × tickers × features = 3 × 4 × 5`。
+
+### 9.1 DatasetH 路线（2D）：先展平样本轴，再按行采样
+
+```text
+逻辑三维视角（便于理解）
+X[d, t, f] -> [D=3, T=4, F=5]
+
+DatasetH 实际输出（DataFrame / Tensor）
+X_flat -> [N, F], 其中 N = D*T = 12
+
+行索引（MultiIndex）示意：
+0:(d1,A) 1:(d1,B) 2:(d1,C) 3:(d1,D)
+4:(d2,A) 5:(d2,B) 6:(d2,C) 7:(d2,D)
+8:(d3,A) 9:(d3,B) 10:(d3,C) 11:(d3,D)
+
+若 batch_size=4，随机 choice=[10, 2, 7, 0]
+则 x_batch_auto 形状 = [4, 5]
+对应样本 = [(d3,C), (d1,C), (d2,D), (d1,A)]
+```
+
+要点：
+
+- 对 MLP 而言，输入就是 `x_batch_auto: [batch_size, input_dim] = [4, 5]`；
+- `date*ticker` 被折叠进“样本轴”，时间维不显式保留在张量维度中。
+
+### 9.2 TSDatasetH 路线（3D）：每个样本是“单股票时间窗口”
+
+```text
+同一份底层数据先经 TSDatasetH + TSDataSampler 组织成序列样本：
+
+样本1: (d2, A) -> 窗口 [d1,d2] 的 A -> [step_len=2, F=5]
+样本2: (d2, B) -> 窗口 [d1,d2] 的 B -> [2,5]
+...
+样本k: (d3, D) -> 窗口 [d2,d3] 的 D -> [2,5]
+
+DataLoader 组 batch 后：
+x_batch_ts -> [batch_size, step_len, F]
+
+若 batch_size=4，则 x_batch_ts 形状 = [4, 2, 5]
+```
+
+要点：
+
+- 这里“样本轴”不再是单点 `(d,t)` 的快照，而是 `(d,t)` 对应的一段历史窗口；
+- 时间维 `step_len` 在张量中是显式存在的，因此是 3D 输入。
+
+### 9.3 一眼看懂版：2D 与 3D 的关系
+
+```text
+同源数据（逻辑）: [D, T, F] = [3,4,5]
+
+DatasetH:
+  reshape(展平 D*T) -> [N, F] = [12,5]
+  sample rows -> [B, F]
+
+TSDatasetH:
+  以每个 (d,t) 取历史窗口 -> [step_len, F]
+  stack batch -> [B, step_len, F]
+```
+
+你可以把它理解为：
+
+- `DatasetH`：把 `D*T` 先压成一个样本轴；
+- `TSDatasetH`：在每个样本内部保留时间轴，再组成 batch。
