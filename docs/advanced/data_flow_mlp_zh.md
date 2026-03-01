@@ -276,3 +276,67 @@ TSDatasetH:
 
 - `DatasetH`：把 `D*T` 先压成一个样本轴；
 - `TSDatasetH`：在每个样本内部保留时间轴，再组成 batch。
+
+
+
+### 9.4 样本与 label 的对应关系（按你给的预设严格展开）
+
+下面只讨论“样本如何对应 label”，并沿用同一设定：
+
+- 逻辑特征：`X[d,t,f]`，形状 `[D,T,F]=[3,4,5]`
+- 逻辑标签：`Y[d,t]`，形状 `[D,T]=[3,4]`
+- 记 `d1<d2<d3`，股票 `A/B/C/D`
+
+#### A) `DatasetH`（2D）下的样本-label 对齐
+
+`DatasetH` 会把 `(d,t)` 展平为样本轴（`N=D*T=12`），因此：
+
+- 特征张量：`X_flat[i]`，形状 `[F]=[5]`
+- 标签张量：`Y_flat[i]`，标量（或 `[1]`）
+- **同一个 `i` 对应同一个 `(d,t)`**，即 `X_flat[i] <-> Y_flat[i]`。
+
+可写成：
+
+```text
+i = flatten(d,t)
+X_flat[i] = X[d,t,:]      # [5]
+Y_flat[i] = Y[d,t]        # scalar
+```
+
+例如（沿用 9.1 的行号）：
+
+- `i=10` 对应 `(d3,C)`：样本是 `X[d3,C,:]`，label 是 `Y[d3,C]`
+- `i=2`  对应 `(d1,C)`：样本是 `X[d1,C,:]`，label 是 `Y[d1,C]`
+
+所以当 `choice=[10,2,7,0]` 时：
+
+- `x_batch_auto` 形状 `[4,5]`
+- `y_batch_auto` 形状 `[4]`（或 `[4,1]`，取决于后续 reshape）
+- 第 `k` 行样本永远和第 `k` 个 label 对齐（共享同一组 `choice` 索引）。
+
+#### B) `TSDatasetH`（3D）下的样本-label 对齐
+
+`TSDatasetH` 的一个样本不再是单点 `X[d,t,:]`，而是“以 `(d,t)` 为锚点”的历史窗口：
+
+```text
+sample(d,t) = [X[d-step_len+1,t,:], ..., X[d,t,:]]   # [step_len, F]
+label(d,t)  = Y[d,t]                                   # 锚点时刻标签
+```
+
+在本例 `step_len=2` 下：
+
+- `(d2,A)` 的样本：`[X[d1,A,:], X[d2,A,:]]`，label：`Y[d2,A]`
+- `(d3,D)` 的样本：`[X[d2,D,:], X[d3,D,:]]`，label：`Y[d3,D]`
+
+batch 化后：
+
+- `x_batch_ts`：`[B,2,5]`
+- `y_batch_ts`：`[B]`
+- 第 `k` 个序列样本的 label，是该序列**最后时点（锚点）**的 `Y[d,t]`。
+
+#### C) 两条路线的本质差异（一句话）
+
+- `DatasetH`：`label` 对应“单点快照样本” `X[d,t,:]`；
+- `TSDatasetH`：`label` 对应“窗口样本的末端时点” `X[d-step+1:d,t,:]` 的锚点 `Y[d,t]`。
+
+这也是为什么两条路线即便来自同一底层数据，训练语义仍然不同。
