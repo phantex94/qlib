@@ -120,3 +120,10 @@ Qlib supports custom models. If users are interested in customizing their own mo
 API
 ===
 Please refer to `Model API <../reference/api.html#module-qlib.model.base>`_.
+
+Deep Learning Sequence Models (Chinese)
+=======================================
+
+For a professional, code-level walkthrough of Qlib's PyTorch sequence baselines,
+please refer to: `Qlib 时序深度学习实现解读：pytorch_lstm.py 与 pytorch_gru.py <pytorch_lstm_gru_zh.html>`_.
+
