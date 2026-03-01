@@ -55,6 +55,7 @@ Document Structure
    Serialization <advanced/serial.rst>
    Task Management <advanced/task_management.rst>
    Point-In-Time database <advanced/PIT.rst>
+   Transformer vs Transformer_TS (Qlib) <advanced/transformer_vs_transformer_ts_zh.md>
 
 .. toctree::
    :maxdepth: 3
