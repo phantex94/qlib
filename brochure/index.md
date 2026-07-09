@@ -80,6 +80,9 @@ charter:
 - [Chapter 10 — Event streams as first-class citizens](ch10-event-streams.md) · Irregular time, three modeling strategies, time-aware architectures, and why Loom gets this almost for free.
 - [Chapter 11 — Capstone: build Loom](ch11-capstone.md) · File-by-file skeleton, weekly gates with acceptance tests, the mastery checklist, and the reading map.
 
+**Part V — Research frontiers** *(chapters grown from our Core Research Areas discussions; read after Part III)*
+- [Chapter 12 — Alignment: surviving the optimizer](ch12-alignment.md) · The transfer coefficient, the signal-attrition waterfall, liquidity/risk/cost constraints placed at three architectural depths — and the defenses against constraint-set overfitting. *(Discussion 1.)*
+
 ---
 
 ## How to use this brochure
