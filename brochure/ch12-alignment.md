@@ -133,4 +133,14 @@ What we still refuse (Ch. 4 §4.4 discipline): no market-impact models beyond li
 4. **The sim-to-real test:** train one small model with the Ch. 7 Sharpe surrogate at `cost_bps=15`, evaluate at 10 and 30 with a perturbed optimizer. Does the gain survive? Add `test_sim_to_real.py` to the suite — the sixth way this field fools people, now encoded.
 5. **Stretch (Strategy 3):** cvxpylayers fine-tune of the champion, *with* constraint randomization, 5 seeds. Verdict in the ledger — including the likely one: "not worth it at my scale yet." That verdict, reached honestly, is mastery of this chapter.
 
+## 12.8 Appendix: the cvxpylayers verdict
+
+*Is a differentiable convex-optimization layer a worthwhile investment?* Assessment: **buy the option, not the asset.**
+
+What it buys: cvxpylayers differentiates through the *exact* KKT conditions of the portfolio QP, so gradients respect the true constraint geometry — and the soft approximation (Ch. 7 §7.5) is wrong precisely where constraints are *active*, which is the entire reason TC < 1. Decision-focused-learning results (Elmachtoub–Grigas SPO; Butler–Kwon end-to-end portfolios) show the gains concentrate where constraint sets are tight. So its value is a function you can read off your own waterfall: high residual W2→W3 attrition after §12.3–12.4 → worth it; already-high TC → little left for exact gradients to correct.
+
+What it costs: backward-through-KKT per date per step makes it a short fine-tuning stage only (hours, reduced universe, low LR — the §12.5 curriculum, which was already mandatory); the program must be written in DPP-canonical form; infeasible instances need fallbacks; and it is the sharpest possible instrument for constraint-set overfitting — a KKT gradient is maximally efficient at exploiting cost-model artifacts, so §12.5's randomization defense becomes non-optional.
+
+The near-free move that settles it: write the §12.6 `optimize()` QP in cvxpy **DPP-canonical form with `ExecSpec` fields as `cp.Parameter`s from day one**, even though the judge-time path never differentiates. Costs ~zero now; makes the differentiable upgrade a two-line backend swap later, with training-time and judge-time constraints provably identical (one program, two backends). The investment decision then reduces — like every decision in Part V — to reading the ledger when the gate opens.
+
 **Meta-note for the ledger, per your template's Step 5:** this chapter migrated a Q4 item ("signal dies in execution — nobody had accounted for where") into the known: it now has a metric (TC), a decomposition (the waterfall), and a defense ladder (hygiene → soft → end-to-end, gated). That is what "incorporating practical constraints without overfitting" cashes out to.
