@@ -87,6 +87,7 @@ charter:
 - [Chapter 15 — Inductive bias, diverse ensembles, and the Mixture-of-Experts question](ch15-inductive-bias-moe.md) · What each model family refuses to learn, the ambiguity decomposition, targeted-direction training via information diets and residual cascades — and the MoE transplant: three breaks, three designs, a humble router, and the noise-expert canary. *(Discussion 4.)*
 - [Chapter 16 — Frequency: horizon structure in features, models, and Multi-Period Optimization](ch16-frequency-mpo.md) · The feature×horizon IC matrix, the five-way alignment principle, an honest verdict on spectral decomposition (with the Slutsky–Yule control), and the MPO ladder from horizon matching through Gârleanu–Pedersen aim portfolios to convex MPC. *(Discussion 5.)*
 - [Chapter 17 — The unified theory of not fooling yourself: overfitting at three levels](ch17-anti-overfitting.md) · Weight-, selection-, and regime-level overfitting with the finance-reversed danger ordering, the shifted-surface case for flat minima, SWA/ASAM verdicts vs. natural gradient, the assembled negative-control panel, and the ledger-as-dataset meta-experiment. *(Discussion 6 — the synthesis.)*
+- [Chapter 18 — Training design: cascades, curricula, and the reweighting trap](ch18-training-design.md) · Cross-family residual cascades with the SNR decay law, within-net residual staging vs. skip connections, the inversion of hard-example weighting (ex-ante, never ex-post), and the ranked training-design leverage table. *(Discussion 7.)*
 
 ---
 
