@@ -83,6 +83,7 @@ charter:
 **Part V — Research frontiers** *(chapters grown from our Core Research Areas discussions; read after Part III)*
 - [Chapter 12 — Alignment: surviving the optimizer](ch12-alignment.md) · The transfer coefficient, the signal-attrition waterfall, liquidity/risk/cost constraints placed at three architectural depths — and the defenses against constraint-set overfitting. *(Discussion 1.)*
 - [Chapter 13 — One tensor, two axes: merging time-series and cross-sectional prediction](ch13-time-vs-crosssection.md) · The TS/XS dichotomy dissolved into factorization choices, the asymmetry principle for sizing each axis's capacity, the gated encoder–mixer architecture, and why the choice should cost one config diff. *(Discussion 2.)*
+- [Chapter 14 — Market time: alternative bars and the combination layer](ch14-clocks-and-combination.md) · Volume/dollar bars and event anchors unified as clocks (folds over the event log, ~50 lines), the broken cross-section, predictions-as-events, and the five-rung signal-combination ladder with its capacity budget. *(Discussion 3.)*
 
 ---
 
