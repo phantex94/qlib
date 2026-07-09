@@ -82,7 +82,7 @@ class OptimSpec:
 
 ## 7.7 Custom optimizers — the pedagogy of writing one
 
-Write one optimizer from scratch in your life; this domain offers a genuinely apt candidate. **SAM (Sharpness-Aware Minimization)** seeks flat minima — parameters whose neighborhood is uniformly good — and flat minima are precisely the ones most robust to distribution shift, which is our disease (Ch. 1 §1.3b):
+Write one optimizer from scratch in your life; this domain offers a genuinely apt candidate. **SAM (Sharpness-Aware Minimization)** seeks flat minima — parameters whose neighborhood is uniformly good — and flat minima are precisely the ones most robust to distribution shift, which is our disease (Ch. 1 §1.3b; the full loss-landscape theory arrives in Ch. 17):
 
 ```python
 class SAM(torch.optim.Optimizer):
