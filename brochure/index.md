@@ -89,6 +89,9 @@ charter:
 - [Chapter 17 — The unified theory of not fooling yourself: overfitting at three levels](ch17-anti-overfitting.md) · Weight-, selection-, and regime-level overfitting with the finance-reversed danger ordering, the shifted-surface case for flat minima, SWA/ASAM verdicts vs. natural gradient, the assembled negative-control panel, and the ledger-as-dataset meta-experiment. *(Discussion 6 — the synthesis.)*
 - [Chapter 18 — Training design: cascades, curricula, and the reweighting trap](ch18-training-design.md) · Cross-family residual cascades with the SNR decay law, within-net residual staging vs. skip connections, the inversion of hard-example weighting (ex-ante, never ex-post), and the ranked training-design leverage table. *(Discussion 7.)*
 
+**Working documents**
+- [The Loom Blueprint, as Open Questions](blueprint.md) · The seven discussions distilled into a three-tier research agenda: 20 ledger-closable questions with their closing experiments, 7 design gates with revisit-triggers, and the questions only you can answer. **Start here to begin the build.**
+
 ---
 
 ## How to use this brochure
