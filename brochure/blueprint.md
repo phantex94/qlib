@@ -62,6 +62,12 @@
 - **A8.2 — How much of the committee does distillation retain?** Also: are students flatter (links A7.1)? *Closes:* student vs. seed vs. ensemble on RankIC + perturbation radius.
 - **A8.3 — Which ex-ante weighting (vol-scaled, liquidity, era) helps, and how much?** *Closes:* one-factor-at-a-time weight duels; the ex-post reweighting demo stays in the ledger as the adjacent cautionary entry.
 
+### From Discussion 8 — Loop engineering (Ch. 19)
+*Settled: four nested internal loops (gradient / search / structure / adaptation) guarding the three overfitting levels; the external loop federates projects through signal and feedback events; two laws — all loops close through the ledger, and timescales must separate.*
+
+- **A9.1 — Are the loop cadences matched to information half-lives?** Nightly L1 / monthly L3 / quarterly L2 are priors, not measurements. *Closes:* regret analysis on the ledger's history — would a faster/slower cadence have dominated?
+- **A9.2 — Which proposal engine earns its budget?** Random, ASHA, LLM-reader, human — ranked by information gained per experiment. *Closes:* per-engine ledger attribution over a quarter.
+
 ---
 
 ## Tier B — Open at the design level (gates and revisit-triggers)
@@ -73,6 +79,7 @@
 - **B5 — Market-impact and borrow-fee fidelity (Ch. 12).** Linear costs only, by design. *Trigger:* strategy capacity analysis begins to matter (real capital), or A1.1 shows W3→W4 attrition that cost-model refinement would explain.
 - **B6 — The t-bar function `t_required = f(n_trials)` (Ch. 9).** A function exists; its *shape* is a methodological choice (deflated-Sharpe-derived vs. simple monotone). *Open:* calibrate against the noise-rejection test — the bar is right when 50/50 noise features are rejected with minimal collateral damage to real ones.
 - **B7 — Live-gap measurement.** The whole discipline aims at shrinking backtest-to-live gap, which no backtest can measure. *Trigger for design work:* paper-trading phase (Ch. 11 §11.6) — the monitor (Ch. 9 §9.5) is built; the *protocol* for attributing live shortfall (decay mis-estimate vs. regime vs. cost model) is unwritten.
+- **B8 — Co-adaptation monitoring (Ch. 19).** Signal↔execution feedback can oscillate (predator–prey); only timescale separation prevents it today, nothing *detects* it. *Trigger:* first sustained live feedback; then build a cross-correlation watch between signal turnover and realized-cost series.
 
 ---
 
